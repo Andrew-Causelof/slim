@@ -1,0 +1,33 @@
+{
+    "name": "seogravity/spinelife",
+    "description": "Кабинет пациента клиники Spinelife",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrey Causelof",
+            "email": "kan@seo-gravity.ru"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "8.3"
+        },
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
+      },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+          "Seogravity\\": "lib/Seogravity/"
+        }
+      },
+      "require-dev": {
+    
+      },
+      "require": {
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.7"
+    }
+}

@@ -1,0 +1,63 @@
+# Игнорировать системные файлы Битрикс
+/bitrix/backup/
+/bitrix/cache/
+/bitrix/managed_cache/
+/bitrix/stack_cache/
+/bitrix/html_pages/
+/bitrix/tmp/
+/bitrix/updates/
+/bitrix/rest/urlrewrite.php
+/bitrix/wizards/
+/bitrix/themes/
+/bitrix/templates/
+/bitrix/modules/
+/bitrix/js/
+/bitrix/panel/
+/bitrix/images/
+
+# Игнорировать логи
+/bitrix/logs/
+
+# Игнорировать конфигурационные файлы с чувствительными данными
+/bitrix/.settings.php
+/bitrix/php_interface/dbconn.php
+/bitrix/php_interface/after_connect.php
+/bitrix/php_interface/after_connect_d7.php
+/bitrix/php_interface/init.php
+
+
+# Игнорировать папку upload (загруженные файлы)
+/upload/
+
+# Игнорировать папку vendor (если используете Composer)
+/vendor/
+/local/vendor/
+
+# Игнорировать IDE-файлы
+.idea/
+.vscode/
+*.iml
+*.swp
+*.txt
+
+# Игнорировать файлы окружения
+.env
+.env.local
+
+# Игнорировать composer-файлы (если не хотите их коммитить)
+composer.lock
+composer.phar
+
+# Игнорировать папку node_modules (если используете JavaScript-библиотеки)
+/node_modules/
+
+# Игнорировать сгенерированные файлы (например, документацию)
+/docs/
+/build/
+
+# Игнорировать файлы операционной системы
+.DS_Store
+Thumbs.db
+
+sync_exclude
+sync.sh
