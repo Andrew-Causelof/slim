@@ -1,26 +1,47 @@
-Options -Indexes 
+Options -Indexes
 ErrorDocument 404 /404.php
 
+# Настройки PHP
+<IfModule mod_php5.c>
+  php_flag allow_call_time_pass_reference 1
+  php_flag session.use_trans_sid off
+  #php_value display_errors 1
+</IfModule>
+
+# Включаем mod_rewrite
 <IfModule mod_rewrite.c>
   Options +FollowSymLinks
   RewriteEngine On
+
+  # 1. Исключаем файлы и директории из обработки
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-l
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_FILENAME} !/bitrix/urlrewrite.php$
+
+  # 2. Перенаправление для кастомного REST API (теперь в /api/)
+  RewriteCond %{REQUEST_URI} ^/api/ [NC]
+  RewriteRule ^api/(.*)$ /api/public/index.php [L,QSA]
+
+  # 3. Перенаправление стандартных маршрутов Bitrix (Важно!)
+  RewriteCond %{REQUEST_URI} !^/bitrix/(.*)$ [NC]
+  RewriteCond %{REQUEST_URI} !^/api/(.*)$ [NC]
   RewriteRule ^(.*)$ /bitrix/urlrewrite.php [L]
+
+  # 4. Разрешаем передачу заголовка Authorization (JWT)
   RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
 </IfModule>
 
+# Индексный файл по умолчанию
 <IfModule mod_dir.c>
   DirectoryIndex index.php index.html
 </IfModule>
 
+# Оптимизация кеша
 <IfModule mod_expires.c>
   ExpiresActive on
   ExpiresByType image/jpeg "access plus 3 day"
   ExpiresByType image/gif "access plus 3 day"
   ExpiresByType image/png "access plus 3 day"
   ExpiresByType text/css "access plus 3 day"
-  ExpiresByType application/javascript "access plus 3 day"  
+  ExpiresByType application/javascript "access plus 3 day"
 </IfModule>

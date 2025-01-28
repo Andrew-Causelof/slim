@@ -20,7 +20,8 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-          "Seogravity\\": "lib/Seogravity/"
+          "Seogravity\\": "lib/Seogravity/",
+          "Api\\": "api/src/"
         }
       },
       "require-dev": {
