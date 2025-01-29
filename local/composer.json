@@ -21,7 +21,7 @@
     "autoload": {
         "psr-4": {
           "Seogravity\\": "lib/Seogravity/",
-          "Api\\": "api/src/"
+          "Api\\": "../api/src/"
         }
       },
       "require-dev": {
