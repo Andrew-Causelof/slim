@@ -23,11 +23,14 @@ class Patient
         return !empty($result) ? $result[0] : null;
     }
 
-    public static function update($id, $fields)
+    public static function update($id, $data)
     {
-        // $hlBlockTable = new HLBlockTable(self::$patientHLBID);
+        $hlBlockTable = new HLBlockTable(self::$patientHLBID);
 
-        // return $hlBlockTable->update($id, $fields);
-        return true;
+        $result = $hlBlockTable->update($id, [
+            'UF_USER_DATA' => $data
+        ]);
+
+        return $result;
     }
 }

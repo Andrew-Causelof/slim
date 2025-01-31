@@ -46,11 +46,15 @@ class PatientController
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
-        echo '<pre>';
-        var_dump($request->getParsedBody());
-        echo '</pre>';
+        $patient = Patient::find($id);
 
-        $result = Patient::update($id, $request->getParsedBody());
+        if (!$patient) {
+            $response->getBody()->write(json_encode(['error' => 'Patient not found']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+        }
+
+        $patientID = $patient['ID']; // Получаем ID пациента в Таблице HLBlockTable
+        $result = Patient::update($patientID, $request->getBody()->getContents());
 
         if (!$result) {
             $response->getBody()->write(json_encode(['error' => 'Patient not found']));
