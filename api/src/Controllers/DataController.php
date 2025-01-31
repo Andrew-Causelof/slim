@@ -8,10 +8,11 @@ use Api\Models\Data;
 
 class DataController
 {
-    public function getRegion(Request $request, Response $response, $args)
+    public function getDatas(Request $request, Response $response, $args)
     {
-        $user = Data::find('region');
-        $response->getBody()->write(json_encode($user));
+        $data = Data::findAll();
+
+        $response->getBody()->write(json_encode($data));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 

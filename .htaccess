@@ -1,6 +1,12 @@
 Options -Indexes
 ErrorDocument 404 /404.php
 
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
 # Настройки PHP
 <IfModule mod_php5.c>
   php_flag allow_call_time_pass_reference 1
@@ -13,21 +19,25 @@ ErrorDocument 404 /404.php
   Options +FollowSymLinks
   RewriteEngine On
 
-  # 1. Исключаем файлы и директории из обработки
+   # 1. Перенаправление главной страницы на /login/
+  RewriteCond %{REQUEST_URI} ^/$
+  RewriteRule ^$ /login/ [R=301,L]
+
+  # 2. Исключаем файлы и директории из обработки
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-l
   RewriteCond %{REQUEST_FILENAME} !-d
 
-  # 2. Перенаправление для кастомного REST API (теперь в /api/)
+  # 3. Перенаправление для кастомного REST API (теперь в /api/)
   RewriteCond %{REQUEST_URI} ^/api/ [NC]
   RewriteRule ^api/(.*)$ /api/public/index.php [L,QSA]
 
-  # 3. Перенаправление стандартных маршрутов Bitrix (Важно!)
+  # 4. Перенаправление стандартных маршрутов Bitrix (Важно!)
   RewriteCond %{REQUEST_URI} !^/bitrix/(.*)$ [NC]
   RewriteCond %{REQUEST_URI} !^/api/(.*)$ [NC]
   RewriteRule ^(.*)$ /bitrix/urlrewrite.php [L]
 
-  # 4. Разрешаем передачу заголовка Authorization (JWT)
+  # 5. Разрешаем передачу заголовка Authorization (JWT)
   RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
 </IfModule>
 

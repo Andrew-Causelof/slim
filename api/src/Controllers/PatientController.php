@@ -10,17 +10,67 @@ class PatientController
 {
     public function getProfile(Request $request, Response $response, $args)
     {
-        $userId = $request->getQueryParams()['userId'] ?? null;
+        $id = $args['id'] ?? null;
 
-        if (!$userId) {
-            $response->getBody()->write(json_encode(['error' => 'User ID is required']));
+        if (!$id) {
+            $response->getBody()->write(json_encode(['error' => 'ID is required']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
-        // Создаём объект пациента
-        $patient = new Patient($userId, 'Иван Иванов', 30, 'ivan.ivanov@example.com');
+        $patient = Patient::find($id);
 
-        $response->getBody()->write(json_encode($patient));
-        return $response->withHeader('Content-Type', 'application/json');
+        if (!$patient) {
+            $response->getBody()->write(json_encode(['error' => 'Patient not found']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+        }
+
+        // Декодируем поле UF_USER_DATA, чтобы вернуть его как JSON
+        $userData = json_decode($patient['UF_USER_DATA'], true);
+
+        // Проверяем, успешно ли декодировалось
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $response->getBody()->write(json_encode(['error' => 'Invalid JSON in UF_USER_DATA']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+        }
+
+        $response->getBody()->write(json_encode($userData));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+    }
+
+    public function updateProfile(Request $request, Response $response, $args)
+    {
+        $id = $args['id'] ?? null;
+
+        if (!$id) {
+            $response->getBody()->write(json_encode(['error' => 'ID is required']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        }
+
+        echo '<pre>';
+        var_dump($request->getParsedBody());
+        echo '</pre>';
+
+        $result = Patient::update($id, $request->getParsedBody());
+
+        if (!$result) {
+            $response->getBody()->write(json_encode(['error' => 'Patient not found']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+        }
+
+        $response->getBody()->write(json_encode(['message' => 'Patient updated successfully']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+    }
+
+    // Функция для установки заголовков CORS
+    private function withCors(Response $response, array $data, int $status = 200)
+    {
+        $response->getBody()->write(json_encode($data, JSON_UNESCAPED_UNICODE));
+
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+            ->withStatus($status);
     }
 }

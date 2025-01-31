@@ -2,18 +2,32 @@
 
 namespace Api\Models;
 
+use \Seogravity\DB\HLBlockTable;
+
 class Patient
 {
-    public $id;
-    public $name;
-    public $age;
-    public $email;
+    protected static $patientHLBID = 7;
 
-    public function __construct($id, $name, $age, $email)
+    public function __construct($id, $name, $age, $email) {}
+
+    public static function find($id)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->age = $age;
-        $this->email = $email;
+        $hlBlockTable = new HLBlockTable(self::$patientHLBID);
+
+        $result = $hlBlockTable->getList([
+            'filter' => ['UF_USER_ID' => $id],
+            'select' => ['ID', 'UF_USER_ID', 'UF_USER_DATA'], // Указываем нужные поля
+            'limit' => 1
+        ]);
+
+        return !empty($result) ? $result[0] : null;
+    }
+
+    public static function update($id, $fields)
+    {
+        // $hlBlockTable = new HLBlockTable(self::$patientHLBID);
+
+        // return $hlBlockTable->update($id, $fields);
+        return true;
     }
 }

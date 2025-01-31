@@ -10,25 +10,20 @@ use Api\Controllers\DataController;
 
 require __DIR__ . '/../../local/vendor/autoload.php';
 
+// Подключение ядра Bitrix
+require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
+
 $app = AppFactory::create();
 
-// Добавляем маршруты
-$app->get('/api/user/profile', [UserController::class, 'getProfile']);
 
 // Маршруты для пациента
-$app->get('/api/patient/profile', [PatientController::class, 'getProfile']);
+$app->get('/api/patient/{id:[0-9]+}', [PatientController::class, 'getProfile']);
+$app->get('/api/patient/data', [DataController::class, 'getDatas']);
 
-// Маршруты для доктора
-$app->get('/api/doctor/profile', [DoctorController::class, 'getProfile']);
+$app->put('/api/patient/{id:[0-9]+}', [PatientController::class, 'updateProfile']);
 
 // Маршруты для данных
 $app->get('/api/data/{id:[0-9]+}', [DataController::class, 'getById']);
-$app->get('/api/data/regions', [DataController::class, 'getRegion']);
 
-// Маршруты для приёмов
-$app->get('/api/appointments', [AppointmentController::class, 'getList']);
-
-// Маршруты для документов
-$app->get('/api/documents', [DocumentController::class, 'getList']);
 
 $app->run();
