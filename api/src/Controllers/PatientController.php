@@ -46,6 +46,24 @@ class PatientController
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
+        // Получаем "сырое" тело запроса
+        $rawBody = $request->getBody()->getContents();
+
+        // Декодируем JSON вручную
+        $data = json_decode($rawBody, true);
+
+        // Проверяем, был ли JSON успешно распарсен
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $response->getBody()->write(json_encode(['error' => 'Invalid JSON']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        }
+
+        if (empty($data)) {
+            $response->getBody()->write(json_encode(['error' => 'Empty request body']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        }
+
+
         $patient = Patient::find($id);
 
         if (!$patient) {

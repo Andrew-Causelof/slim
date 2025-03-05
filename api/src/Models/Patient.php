@@ -33,4 +33,26 @@ class Patient
 
         return $result;
     }
+
+    public static function updateUserFields($userID)
+    {
+
+        $patient = self::find($userID);
+
+        if (!$patient) {
+            return false;
+        }
+
+        $userData = json_decode($patient['UF_USER_DATA'], true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return false;
+        }
+
+
+
+
+
+        return null;
+    }
 }

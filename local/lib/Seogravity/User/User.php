@@ -9,12 +9,12 @@ use Bitrix\Main;
 class User
 {
     public $userId;
-    public $user;
+    public $fields;
 
     function __construct($userId)
     {
         $this->userId = $userId;
-        $this->user = $this->getUserById($userId);
+        $this->fields = $this->getUserById($userId);
     }
 
     function getUserById($userId)
@@ -46,5 +46,38 @@ class User
         }
 
         return false;
+    }
+
+    /**
+     * Обновляет пользовательские поля пользователя
+     *
+     * @param array $fields Массив вида ['UF_FIELD_NAME' => 'Новое значение']
+     * @return bool|string
+     */
+    function updateUserFields(array $fields)
+    {
+        global $USER;
+
+        if (!$this->userId || empty($fields)) {
+            return "Ошибка: ID пользователя не задан или массив данных пуст.";
+        }
+
+        // Проверяем, что ключи начинаются с "UF_" (чтобы не обновлять системные поля)
+        $filteredFields = array_filter($fields, function ($key) {
+            return strpos($key, 'UF_') === 0;
+        }, ARRAY_FILTER_USE_KEY);
+
+        if (empty($filteredFields)) {
+            return "Ошибка: Нет корректных пользовательских полей для обновления.";
+        }
+
+        $user = new \CUser;
+        $result = $user->Update($this->userId, $filteredFields);
+
+        if ($result) {
+            return true; // Успешное обновление
+        } else {
+            return "Ошибка обновления: " . $user->LAST_ERROR;
+        }
     }
 }
