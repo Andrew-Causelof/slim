@@ -1,3 +1,5 @@
 <?
 $sSectionName = "Страница Пациента";
-$arDirProperties = array();
+$arDirProperties = array(
+    'title' => 'Информация о пациенте'
+);

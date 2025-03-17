@@ -1,0 +1,20 @@
+.select.ok {
+  border-color: #34bda5;
+  background: #ecfffb;
+}
+.select.err {
+  border-color: #df3353;
+  background: #fff3f6;
+}
+
+.next-btn {
+  cursor: pointer;
+}
+
+.page-auth.hide {
+  display: none;
+}
+
+.page-auth a {
+  cursor: pointer;
+}

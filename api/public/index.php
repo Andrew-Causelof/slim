@@ -7,13 +7,15 @@ use Api\Controllers\DoctorController;
 use Api\Controllers\AppointmentController;
 use Api\Controllers\DocumentController;
 use Api\Controllers\DataController;
-
-require __DIR__ . '/../../local/vendor/autoload.php';
+use Api\Controllers\RulesController;
+use Api\Controllers\RecomendationController;
 
 // Подключение ядра Bitrix
 require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
 
 $app = AppFactory::create();
+
+$app->addBodyParsingMiddleware();
 
 // === 1. CORS Middleware (перемещено в начало) ===
 $app->add(function ($request, $handler) {
@@ -63,9 +65,17 @@ $app->get('/api/data/{id:[0-9]+}', [DataController::class, 'getById']);
 // Работа с файлами 
 $app->post('/api/patient/{id}/files/upload',  [DocumentController::class, 'uploadFile']);
 $app->delete('/api/patient/{id}/files/{fileId}', [DocumentController::class, 'deleteFile']);
-
 //$app->get('/api/patient/{id}/files', [DocumentController::class, 'getFiles']);
 
+// Правила госпиталзации
+$app->get('/api/rules', [RulesController::class, 'getRules']);
 
+// Рекомендации после операции
+$app->get('/api/recomendation', [RecomendationController::class, 'getRecomendation']);
+
+// Авторизация
+$app->post('/api/user/login', [UserController::class, 'login']);
+$app->post('/api/user/logout', [UserController::class, 'logout']); // @TODO реализовать по необходимости
+$app->post('/api/user/restore', [UserController::class, 'restore']);
 
 $app->run();

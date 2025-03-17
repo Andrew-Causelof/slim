@@ -25,4 +25,20 @@ $arUrlRewrite = array(
     'PATH' => '/login/index.php',
     'SORT' => 300,
   ),
+  4 =>
+  array(
+    'CONDITION' => '#^/patient/#',
+    'RULE' => '',
+    'ID' => '',
+    'PATH' => '/patient/index.php',
+    'SORT' => 400,
+  ),
+  5 =>
+  array(
+    'CONDITION' => '#^/doctor/#',
+    'RULE' => '',
+    'ID' => '',
+    'PATH' => '/doctor/index.php',
+    'SORT' => 400,
+  ),
 );

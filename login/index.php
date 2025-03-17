@@ -1,7 +1,6 @@
-<? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php"); ?>
+<? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
+?>
 
-
-<p>Вы зарегистрированы и успешно авторизовались.</p>
-
+<?php $APPLICATION->IncludeComponent("seogravity:auth", "login", []) ?>
 
 <? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

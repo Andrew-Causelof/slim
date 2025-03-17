@@ -10,6 +10,8 @@ class User
 {
     public $userId;
     public $fields;
+    const USER_GROUP_DOCTOR = 5;
+    const USER_GROUP_PATIENT = 6;
 
     function __construct($userId)
     {
@@ -78,6 +80,33 @@ class User
             return true; // Успешное обновление
         } else {
             return "Ошибка обновления: " . $user->LAST_ERROR;
+        }
+    }
+
+    function isPatient()
+    {
+        global $USER;
+
+        return $USER->IsAuthorized() && in_array(self::USER_GROUP_PATIENT, $USER->GetUserGroupArray());
+    }
+
+    function isDoctor()
+    {
+        global $USER;
+
+        return $USER->IsAuthorized() && in_array(self::USER_GROUP_DOCTOR, $USER->GetUserGroupArray());
+    }
+
+    public function redirectIfAuthorized()
+    {
+        if ($this->isPatient()) {
+            LocalRedirect('/patient/');
+            exit;
+        }
+
+        if ($this->isDoctor()) {
+            LocalRedirect('/doctor/');
+            exit;
         }
     }
 }

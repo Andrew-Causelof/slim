@@ -1,11 +1,18 @@
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+  Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+</IfModule>
+
 Options -Indexes
 ErrorDocument 404 /404.php
 
-<IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
-</IfModule>
+
+# Обработка preflight-запросов для PUT и DELETE
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
 
 # Настройки PHP
 <IfModule mod_php5.c>
@@ -19,7 +26,7 @@ ErrorDocument 404 /404.php
   Options +FollowSymLinks
   RewriteEngine On
 
-   # 1. Перенаправление главной страницы на /login/
+  # 1. Перенаправление главной страницы на /login/
   RewriteCond %{REQUEST_URI} ^/$
   RewriteRule ^$ /login/ [R=301,L]
 

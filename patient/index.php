@@ -1,6 +1,6 @@
 <? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php"); ?>
 
-<p>страница пациента</p>
+<?php $APPLICATION->IncludeComponent("seogravity:patient", "", []) ?>
 
 
 <? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

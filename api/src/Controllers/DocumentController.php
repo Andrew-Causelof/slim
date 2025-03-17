@@ -59,7 +59,7 @@ class DocumentController
             "id" => $fileId,
             "name" => $fileInfo['ORIGINAL_NAME'],
             "path" => $fileInfo['SRC'],
-            "full_path" => $_SERVER["DOCUMENT_ROOT"] . $fileInfo['SRC'],
+            // "full_path" => $_SERVER["DOCUMENT_ROOT"] . $fileInfo['SRC'],
             "size" => $fileInfo["FILE_SIZE"]
         ];
 

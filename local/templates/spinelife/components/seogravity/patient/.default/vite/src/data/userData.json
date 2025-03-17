@@ -1,0 +1,55 @@
+{
+    "activeTab": "about",
+    "gender": "male",
+    "firstname": "Егор",
+    "lastname": "Летов",
+    "thirdname": "Фёдорович",
+    "birthday": "01.09.1983",
+    "dateOfBirth": "",
+    "height": "185",
+    "weight": "96.5",
+    "phone": "79036272514",
+    "phone2": "79262644795",
+    "email": "causelof@yandex.ru",
+    "polis": "1234567890123456",
+    "polisRegion": "Приморский край",
+    "snils": "05703302827",
+    "passport": "99 99 999999",
+    "passportDate": "13.02.2020",
+    "passportFrom": "Отделением по району Северное Медведково ОУФМС по гор. Москве в СВАО",
+    "city": "Москва",
+    "address": "Дубнинская ул., д.41",
+    "chronicDiseases": "no",
+    "diseaseList": [
+        {
+          "id": "01",
+          "name": "Артериальная гипертония (повышенное давление)",
+          "comment": "Для точной диагностики и назначения лечения необходимо обратиться к врачу"
+        },
+        {
+          "id": "02",
+          "name": "Ишемическая болезнь сердца (включая инфаркт миокарда)",
+          "comment": "При хронической ИБС боль возникает первоначально во время физической нагрузки."
+        }
+      ],
+    "medications": "no",
+    "medicationList": [],
+    "alergyList" : [],
+    "infectionList": [],
+    "badHabbitsList": [],
+    "comment": "Сроки сдачи проекта",
+    "surgeries": "no",
+    "surgeriesComment": "",
+    "alergy": "no",
+    "infection": "no",
+    "inheritanceDiseasesComment": "",
+    "badHabbits": "no",
+    "pregnant": "no",
+    "sickLeave": "no",
+    "progress": {
+      "general" : 50,
+      "medical" : 76,
+      "documents" : 20
+    }
+  }
+  
