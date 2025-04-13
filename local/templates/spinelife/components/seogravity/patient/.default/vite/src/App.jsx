@@ -5,9 +5,13 @@ import Messengers from './components/Messengers.jsx';
 import { useDataLoader } from './useDataLoader.js';
 import { NotificationProvider } from './context/NotificationContext.jsx';
 
+import { useUserStore } from './store';
+
 function App() {
   // Загружаем данные один раз при инициализации
   useDataLoader();
+
+  const { userData } = useUserStore();
 
   return (
     <NotificationProvider>
@@ -17,7 +21,7 @@ function App() {
           <AsideMenu />
           <MainContent />
         </div>
-        <Messengers />
+        {userData.activeTab !== 'chat' &&  <Messengers />}
       </div>
     </NotificationProvider>
 

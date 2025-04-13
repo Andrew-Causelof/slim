@@ -1,0 +1,37 @@
+{
+    "title": "Рекомендации после операции",
+    "sections": [
+        {
+            "title": "Видео рекомендации",
+            "type": "video",
+            "items": [
+                {
+                    "title": "Послеопреационная зарядка и физические упражнения.",
+                    "img": "http://sl-crm.seo-gravity.ru/assets/img/video1.jpg",
+                    "url": "https://rutube.ru/play/embed/36ee8a8de6817a2ca0303e27441fc0f8/"
+                },
+                {
+                    "title": "Советы по восстановлению.",
+                    "img": "http://sl-crm.seo-gravity.ru/assets/img/video2.jpg",
+                    "url": "https://rutube.ru/play/embed/36ee8a8de6817a2ca0303e27441fc0f8/"
+                },
+                {
+                    "title": "Как избегать осложнений.",
+                    "img": "http://sl-crm.seo-gravity.ru/assets/img/video3.jpg",
+                    "url": "https://rutube.ru/play/embed/36ee8a8de6817a2ca0303e27441fc0f8/"
+                }
+            ]
+        },
+        {
+            "title": "Текстовые рекомендации",
+            "type": "file",
+            "items": [
+                {"title": "Послеоперационная зарядка и физические упражнения", "url": "/files/exercise.pdf"},
+                {"title": "Рекомендации по питанию и пищевым добавкам", "url": "/files/nutrition.pdf"},
+                {"title": "Рекомендации по лекарствам", "url": "/files/medications.pdf"},
+                {"title": "Рекомендации по питанию и пищевым добавкам", "url": "/files/nutrition2.pdf"},
+                {"title": "Послеоперационная зарядка и физические упражнения", "url": "/files/exercise2.pdf"}
+            ]
+        }
+    ]
+}

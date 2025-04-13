@@ -1716,6 +1716,27 @@ body.noscroll {
   overflow-y: auto;
   padding-bottom: 20px;
 }
+
+/* Стили для скроллбара в WebKit-браузерах (Chrome, Safari) */
+.chat_messages::-webkit-scrollbar {
+  width: 8px; /* Ширина скроллбара */
+}
+
+.chat_messages::-webkit-scrollbar-thumb {
+  background-color: #1f8673; /* Цвет ползунка */
+  border-radius: 4px; /* Скругление углов ползунка */
+}
+
+.chat_messages::-webkit-scrollbar-track {
+  background-color: transparent; /* Цвет трека (фона) скроллбара */
+}
+
+/* Стили для скроллбара в Firefox */
+.chat_messages {
+  scrollbar-width: thin; /* Тонкий скроллбар */
+  scrollbar-color: #1f8673 transparent; /* Цвет ползунка и трека */
+}
+
 .chat_message {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1849,6 +1870,7 @@ body.noscroll {
   -webkit-box-align: end;
   -ms-flex-align: end;
   align-items: flex-end;
+  gap: 5px;
 }
 .chat_message-reverse .chat_message_profile_avatar {
   background: #7ee0ce;
@@ -1906,6 +1928,7 @@ body.noscroll {
   font-size: 16px;
   font-weight: 500;
   color: #59677d;
+  width: 100%;
 }
 .chat_form_actions {
   display: -webkit-box;
@@ -2012,6 +2035,7 @@ body.noscroll {
   flex: none;
   background-repeat: no-repeat;
   background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_26_1675)'%3E%3Cpath d='M0.9375 5.59515V21.8135L6.09192 18.1365C6.68065 17.7165 7.3858 17.4908 8.10898 17.4908H19.4453C20.9262 17.4908 22.1267 16.2903 22.1267 14.8094V2.91378H3.61887C2.138 2.91378 0.9375 4.11428 0.9375 5.59515Z' stroke='white' stroke-width='2' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M25.8768 10.185H28.3811C29.8618 10.185 31.0624 11.3856 31.0624 12.8669V29.085L25.9081 25.4081C25.3194 24.9882 24.6143 24.7625 23.8911 24.7625H12.5544C11.0737 24.7625 9.87305 23.5619 9.87305 22.0806V21.2407' stroke='white' stroke-width='2' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M17.5737 8.02148H6.74219' stroke='white' stroke-width='2' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M17.5737 12.3965H6.74219' stroke='white' stroke-width='2' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_26_1675'%3E%3Crect width='32' height='32' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+  cursor: pointer;
 }
 .messengers_items {
   display: none;

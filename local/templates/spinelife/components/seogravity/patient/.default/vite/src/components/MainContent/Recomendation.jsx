@@ -1,55 +1,78 @@
+import { useEffect, useState } from 'react';
+import {API_BASE_URL} from '../../config';
 import Breadcrumbs from '../common/Breadcrumbs';
 import AsideInfo from '../common/AsideInfo'
 import FileRecomendation from '../common/FileRecomendation'
 import VideoRecomendation from '../common/VideoRecomendation'
 
+
 export default function Recomendation() {
+        const [ recomendation, setRecomendation ] = useState({});
+        const [ loading, setLoading ] = useState(true);
+        const [ error, setError ] = useState(null);
+
+           useEffect(() => {
+                const fetchRules = async () => {
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/recomendation`);
+                        if(!response.ok) {
+                            throw new Error('Ошибка загрузки правил');
+                        }
+                        const data = await response.json();
+                        setRecomendation(data.recomendation);
+                    } catch (error) {
+                        setError(error.message);
+                    } finally {
+                        setLoading(false);
+                    }
+                };
+        
+                fetchRules();
+            }, []);
+        
+            if(loading) return <p>Загрузка...</p>;
+            if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
     return (
         <main className="main">
             <div className="content">
                 <div className="content_head">
-                    <Breadcrumbs current='Рекомендации после операции' />
-                    <div className="title title-page">Рекомендации после операции</div>
+                    <Breadcrumbs current={recomendation.title}/>
+                    <div className="title title-page">{recomendation.title}</div>
                 </div>
                 <div className="content_body">
-                    <article className="article">
-                        <div className="article_head">
-                            <div className="title title-article">Видео рекомендации</div>
-                        </div>
-                        <div className="article_body">
-                            <div className="video_items">
-                                <VideoRecomendation 
-                                    title='Послеопреационная зарядка и физические упражнения.' 
-                                    img='http://sl-crm.seo-gravity.ru/assets/img/video1.jpg'
-                                    url='#'
-                                />
-                                <VideoRecomendation 
-                                    title='Послеопреационная зарядка и физические упражнения.' 
-                                    img='http://sl-crm.seo-gravity.ru/assets/img/video2.jpg'
-                                    url='#'
-                                />
-                                <VideoRecomendation 
-                                    title='Послеопреационная зарядка и физические упражнения.' 
-                                    img='http://sl-crm.seo-gravity.ru/assets/img/video3.jpg'
-                                    url='#'
-                                />
+                    {recomendation.sections.map((section, sectionIndex) => (
+                        <article className="article" key={sectionIndex}>
+                            <div className="article_head">
+                                <div className="title title-article">{section.title}</div>
                             </div>
-                        </div>
-                    </article>
-                    <article className="article">
-                        <div className="article_head">
-                            <div className="title title-article">Текстовые рекомендации</div>
-                        </div>
-                        <div className="article_body">
-                            <div className="text_items">
-                                <FileRecomendation title="Послеопреационная зарядка и физические упражнения"/>
-                                <FileRecomendation title="Рекомендации по питанию и пищевым добавкам"/>
-                                <FileRecomendation title="Рекомендации по лекарствам"/>
-                                <FileRecomendation title="Рекомендации по питанию и пищевым добавкам"/>
-                                <FileRecomendation title="Послеопреационная зарядка и физические упражнения"/>
+                            <div className="article_body">
+                                {section.type === 'video' && (
+                                    <div className="video_items">
+                                        {section.items.map((video, videoIndex) => (
+                                            <VideoRecomendation
+                                                key={videoIndex}
+                                                title={video.title}
+                                                img={video.img}
+                                                url={video.url}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                                {section.type === 'file' && (
+                                    <div className="text_items">
+                                        {section.items.map((file, fileIndex) => (
+                                            <FileRecomendation
+                                                key={fileIndex}
+                                                title={file.title}
+                                                url={file.url}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                    ))}
                 </div>
             </div>
             <AsideInfo title='Информация'/>

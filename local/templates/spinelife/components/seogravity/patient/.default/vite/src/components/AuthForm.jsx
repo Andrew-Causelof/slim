@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {API_BASE_URL} from '../config';
 
 const AuthForm = () => {
     const [email, setEmail] = useState(''); // @TODO если необходимо забрать из куков или локалстораджа

@@ -9,6 +9,7 @@ use Api\Controllers\DocumentController;
 use Api\Controllers\DataController;
 use Api\Controllers\RulesController;
 use Api\Controllers\RecomendationController;
+use Api\Controllers\PatientsController;
 
 // Подключение ядра Bitrix
 require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
@@ -58,6 +59,12 @@ $app->get('/api/patient/{id:[0-9]+}', [PatientController::class, 'getProfile']);
 $app->get('/api/patient/data', [DataController::class, 'getDatas']);
 
 $app->put('/api/patient/{id:[0-9]+}', [PatientController::class, 'updateProfile']);
+
+// Маршруты для пациентов (страница со списком пациентов) ?page=2&limit=5&letter=Б
+$app->get('/api/patients', [PatientsController::class, 'getPatients']);
+
+
+
 
 // Маршруты для данных
 $app->get('/api/data/{id:[0-9]+}', [DataController::class, 'getById']);

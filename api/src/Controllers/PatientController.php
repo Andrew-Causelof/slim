@@ -5,9 +5,12 @@ namespace Api\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Api\Models\Patient;
+use Api\Traits\ResponseTrait;
 
 class PatientController
 {
+    use ResponseTrait;
+
     public function getProfile(Request $request, Response $response, $args)
     {
         $id = $args['id'] ?? null;

@@ -2,10 +2,9 @@ import { create } from "zustand";
 import { API_BASE_URL } from "./config";
 import axios from "axios";
 
-
 const useUserStore = create((set) => ({
   userData: {
-    files: {}
+    files: {},
   }, // Начальное состояние
   loading: false,
   error: null,
@@ -28,9 +27,7 @@ const useUserStore = create((set) => ({
     set({ loading: true, error: null });
 
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/patient/${userId}`
-      );
+      const response = await axios.get(`${API_BASE_URL}/patient/${userId}`);
       const userData = response.data;
       const progress = calculateProgress(userData);
 
@@ -47,16 +44,12 @@ const useUserStore = create((set) => ({
     try {
       const { userData } = useUserStore.getState();
       console.log(" userData", userData);
-      await axios.put(
-        `${API_BASE_URL}/patient/${userId}`,
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true, // Это будет работать только если сервер отправляет Access-Control-Allow-Credentials
-        }
-      );
+      await axios.put(`${API_BASE_URL}/patient/${userId}`, userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true, // Это будет работать только если сервер отправляет Access-Control-Allow-Credentials
+      });
     } catch (error) {
       console.error("Ошибка сохранения данных пользователя:", error);
     }
@@ -65,7 +58,9 @@ const useUserStore = create((set) => ({
   // Загрузка списка файлов пользователя
   fetchUserFiles: async (userId) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/patient/${userId}/files`);
+      const response = await axios.get(
+        `${API_BASE_URL}/patient/${userId}/files`
+      );
       set((state) => ({
         userData: {
           ...state.userData,
@@ -83,35 +78,40 @@ const useUserStore = create((set) => ({
     formData.append("file", file);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/patient/${userId}/files/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/patient/${userId}/files/upload`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       set((state) => {
         // Обновляем только files
         const updatedFiles = {
-            ...state.userData.files,
-            [fieldName]: [...(state.userData.files[fieldName] || []), response.data],
+          ...state.userData.files,
+          [fieldName]: [
+            ...(state.userData.files[fieldName] || []),
+            response.data,
+          ],
         };
 
         // Создаем новое состояние с обновленными файлами
-        const updatedUserData = { 
-            ...state.userData, 
-            files: updatedFiles 
+        const updatedUserData = {
+          ...state.userData,
+          files: updatedFiles,
         };
 
         // Пересчитываем прогресс
         const updatedProgress = calculateProgress(updatedUserData);
 
         return {
-            userData: {
-                ...updatedUserData,
-                progress: updatedProgress,
-            },
+          userData: {
+            ...updatedUserData,
+            progress: updatedProgress,
+          },
         };
-    });
-
-
+      });
     } catch (error) {
       console.error("Ошибка загрузки файла:", error);
     }
@@ -120,37 +120,37 @@ const useUserStore = create((set) => ({
   // Удаление файла
   deleteFile: async (userId, fieldName, fileId) => {
     try {
-        await axios.delete(`${API_BASE_URL}/patient/${userId}/files/${fileId}`);
+      await axios.delete(`${API_BASE_URL}/patient/${userId}/files/${fileId}`);
 
-        set((state) => {
-            // Обновляем только files
-            const updatedFiles = {
-                ...state.userData.files,
-                [fieldName]: state.userData.files[fieldName]?.filter((file) => file.id !== fileId),
-            };
+      set((state) => {
+        // Обновляем только files
+        const updatedFiles = {
+          ...state.userData.files,
+          [fieldName]: state.userData.files[fieldName]?.filter(
+            (file) => file.id !== fileId
+          ),
+        };
 
-            // Создаем новое состояние с обновленными файлами
-            const updatedUserData = { 
-                ...state.userData, 
-                files: updatedFiles 
-            };
+        // Создаем новое состояние с обновленными файлами
+        const updatedUserData = {
+          ...state.userData,
+          files: updatedFiles,
+        };
 
-            // Пересчитываем прогресс
-            const updatedProgress = calculateProgress(updatedUserData);
+        // Пересчитываем прогресс
+        const updatedProgress = calculateProgress(updatedUserData);
 
-            return {
-                userData: {
-                    ...updatedUserData,
-                    progress: updatedProgress,
-                },
-            };
-        });
-
+        return {
+          userData: {
+            ...updatedUserData,
+            progress: updatedProgress,
+          },
+        };
+      });
     } catch (error) {
-        console.error("Ошибка удаления файла:", error);
+      console.error("Ошибка удаления файла:", error);
     }
-},
-
+  },
 }));
 
 const useDescriptionStore = create((set) => ({
@@ -272,9 +272,57 @@ const useDocumentStore = create((set) => ({
 // Функция для расчета заполненности полей
 const calculateProgress = (userData) => {
   const sections = {
-    general: ["gender", "lastname", "firstname", "thirdname", "birthday", "height",  "weight", "phone", "phone2", "email", "polis", "polisRegion", "snils", "passport", "passportDate", "passportFrom", "city", "address"],
-    medical: ["comment", "chronicDiseases", "diseaseList", "medications", "medicationList", "surgeries", "surgeriesComment", "alergy", "alergyList", "infection", "infectionList", "inheritanceDiseasesComment", "badHabbits", "badHabbitsList",  "pregnant", "sickLeave" ],
-    documents: ["passport", "polis_files", "snils_files", "general_files", "coagulogram_files", "blood-biochemical_files", "blood-infectious_files", "blood-group_files", "blood-phenotyping_files", "urine-general_files", "covid_files"],
+    general: [
+      "gender",
+      "lastname",
+      "firstname",
+      "thirdname",
+      "birthday",
+      "height",
+      "weight",
+      "phone",
+      "phone2",
+      "email",
+      "polis",
+      "polisRegion",
+      "snils",
+      "passport",
+      "passportDate",
+      "passportFrom",
+      "city",
+      "address",
+    ],
+    medical: [
+      "comment",
+      "chronicDiseases",
+      "diseaseList",
+      "medications",
+      "medicationList",
+      "surgeries",
+      "surgeriesComment",
+      "alergy",
+      "alergyList",
+      "infection",
+      "infectionList",
+      "inheritanceDiseasesComment",
+      "badHabbits",
+      "badHabbitsList",
+      "pregnant",
+      "sickLeave",
+    ],
+    documents: [
+      "passport",
+      "polis_files",
+      "snils_files",
+      "general_files",
+      "coagulogram_files",
+      "blood-biochemical_files",
+      "blood-infectious_files",
+      "blood-group_files",
+      "blood-phenotyping_files",
+      "urine-general_files",
+      "covid_files",
+    ],
   };
 
   let progress = {};
@@ -309,6 +357,5 @@ const calculateProgress = (userData) => {
 
   return progress;
 };
-
 
 export { useUserStore, useDescriptionStore, useDocumentStore };
