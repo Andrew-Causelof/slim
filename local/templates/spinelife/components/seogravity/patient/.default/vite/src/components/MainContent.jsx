@@ -11,10 +11,10 @@ export default function MainContent() {
 
     return (
         <>
+            {userData.activeTab === 'rules' && <Rules />}
             {userData.activeTab === 'about' && <About />}
             {userData.activeTab === 'info' && <Info />}
             {userData.activeTab === 'docs' && <Docs />}
-            {userData.activeTab === 'rules' && <Rules />}
             {userData.activeTab === 'recomendation' && <Recomendation />}
             {userData.activeTab === 'chat' && <Chat />}
         </>

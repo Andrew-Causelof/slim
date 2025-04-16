@@ -6,7 +6,8 @@ function useDataLoader() {
   const fetchUserData = useUserStore((state) => state.fetchUserData);
 
   useEffect(() => {
-    const userId = 3; //@TODO ID пользователя (нужно динамически определять)
+    const userId =  3; //@TODO ID пользователя (нужно динамически определять)
+    
     fetchUserData(userId);
   }, [fetchUserData]); // Запуск загрузки при монтировании
 }

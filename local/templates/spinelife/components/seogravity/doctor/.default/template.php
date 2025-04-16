@@ -18,6 +18,6 @@ $templateFolder = $this->GetFolder();
         id: <?= (int)$USER->GetID(); ?>
     };
 </script>
-<div id="react-lk-patient"></div>
+<div id="react-lk-doctor"></div>
 
 <script src="<?= $templateFolder ?>/vite/dist/bundle.js"></script>

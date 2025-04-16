@@ -7,7 +7,7 @@ const MAX_FILE_SIZE_MB = 10; // Максимальный размер файла
 const ALLOWED_FORMATS = ['jpeg', 'jpg', 'png', 'pdf', 'doc', 'docx']; // Допустимые форматы
 
 export default function DocumentUploader({
-  userId = 3,
+  userId = 3, //@TODO ID пользователя (нужно динамически определять)
   fieldName,
   title,
   notice = "",

@@ -242,32 +242,32 @@ const useDescriptionStore = create((set) => ({
   },
 }));
 
-const useDocumentStore = create((set) => ({
-  documents: {},
-  addDocument: (fieldName, file) =>
-    set((state) => ({
-      documents: {
-        ...state.documents,
-        [fieldName]: [...(state.documents[fieldName] || []), file],
-      },
-    })),
-  removeDocument: (fieldName, fileName) =>
-    set((state) => ({
-      documents: {
-        ...state.documents,
-        [fieldName]: state.documents[fieldName].filter(
-          (file) => file.name !== fileName
-        ),
-      },
-    })),
-  clearDocuments: (fieldName) =>
-    set((state) => ({
-      documents: {
-        ...state.documents,
-        [fieldName]: [],
-      },
-    })),
-}));
+// const useDocumentStore = create((set) => ({
+//   documents: {},
+//   addDocument: (fieldName, file) =>
+//     set((state) => ({
+//       documents: {
+//         ...state.documents,
+//         [fieldName]: [...(state.documents[fieldName] || []), file],
+//       },
+//     })),
+//   removeDocument: (fieldName, fileName) =>
+//     set((state) => ({
+//       documents: {
+//         ...state.documents,
+//         [fieldName]: state.documents[fieldName].filter(
+//           (file) => file.name !== fileName
+//         ),
+//       },
+//     })),
+//   clearDocuments: (fieldName) =>
+//     set((state) => ({
+//       documents: {
+//         ...state.documents,
+//         [fieldName]: [],
+//       },
+//     })),
+// }));
 
 // Функция для расчета заполненности полей
 const calculateProgress = (userData) => {
@@ -311,7 +311,7 @@ const calculateProgress = (userData) => {
       "sickLeave",
     ],
     documents: [
-      "passport",
+      "passport_files",
       "polis_files",
       "snils_files",
       "general_files",
@@ -358,4 +358,4 @@ const calculateProgress = (userData) => {
   return progress;
 };
 
-export { useUserStore, useDescriptionStore, useDocumentStore };
+export { useUserStore, useDescriptionStore };

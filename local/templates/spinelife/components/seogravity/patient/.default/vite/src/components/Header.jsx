@@ -19,7 +19,7 @@ function Header() {
                 </div>
             </a>
             <div className="profile header_profile" tabIndex="0">
-                <div className="profile_text">{`${userData.lastName} ${userData.firstname} ${userData.thirdname}`}</div>
+                <div className="profile_text">{`${userData.lastname} ${userData.firstname} ${userData.thirdname}`}</div>
                 <div className="profile_avatar">
                     <span>О</span>
                 </div>

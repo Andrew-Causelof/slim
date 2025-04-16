@@ -1,11 +1,10 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './assets/css/style.min.css'
-import './assets/css/custom.css'
-import App from './App.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { REACT_APP_ROOT } from "./config.js";
+import App from "./App.jsx";
 
-createRoot(document.getElementById('react-lk-patient')).render(
+createRoot(document.getElementById(`${REACT_APP_ROOT}`)).render(
   <StrictMode>
     <App />
-  </StrictMode>,
-)
+  </StrictMode>
+);

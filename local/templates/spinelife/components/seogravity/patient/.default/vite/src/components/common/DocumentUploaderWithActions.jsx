@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDocumentStore } from '../../store';
+import { useUserStore } from '../../store';
 
 const MAX_FILE_SIZE_MB = 10; // Максимальный размер файла в МБ
 const ALLOWED_FORMATS = ['jpeg', 'png', 'pdf', 'doc', 'docx']; // Допустимые форматы
 
-
+ //@TODO привязать к реальному ID авторизованного пациента
 export default function DocumentUploaderWithActions({
+  userId = 3, //@TODO ID пользователя (нужно динамически определять)
   fieldName,
   title,
   notice = '',
   items = [],
   actions = {}
 }) {
-  const { documents, addDocument, removeDocument } = useDocumentStore();
+  const { userData, uploadFile, deleteFile, saveUserData } = useUserStore();
   const [error, setError] = useState('');
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
 
     const validatedFiles = files.filter((file) => {
@@ -33,15 +34,27 @@ export default function DocumentUploaderWithActions({
         return false;
       }
 
-      setError(''); // Сбрасываем ошибку, если файл валиден
+      setError('');
       return true;
     });
 
-    validatedFiles.forEach((file) => addDocument(fieldName, file));
+    try {
+      await Promise.all(validatedFiles.map((file) => uploadFile(userId, fieldName, file)));
+      await saveUserData(userId);
+      console.log('Файлы успешно загружены и сохранены!');
+    } catch (error) {
+      console.error('Ошибка загрузки файлов:', error);
+    }
   };
 
-  const handleFileRemove = (fileName) => {
-    removeDocument(fieldName, fileName);
+  const handleFileRemove = async (fileId) => {
+    try {
+      await deleteFile(userId, fieldName, fileId);
+      await saveUserData(userId);
+      console.log('Файл успешно удален и сохранен!');
+    } catch (error) {
+      console.error('Ошибка удаления файла:', error);
+    }
   };
 
   return (
@@ -94,7 +107,7 @@ export default function DocumentUploaderWithActions({
 
         {/* Список загруженных файлов */}
         <div className="files">
-          {documents[fieldName]?.map((file, index) => (
+          {userData.files[fieldName]?.map((file, index) => (
             <div key={index} className="files_item">
               <span className="files_item_icon"></span>
               <span className="files_item_title">{file.name}</span>
@@ -102,7 +115,7 @@ export default function DocumentUploaderWithActions({
                 <button
                   type="button"
                   className="files_item_del"
-                  onClick={() => handleFileRemove(file.name)}
+                  onClick={() => handleFileRemove(file.id)}
                 >
                   Удалить
                 </button>
@@ -124,13 +137,13 @@ export default function DocumentUploaderWithActions({
 }
 
 DocumentUploaderWithActions.propTypes = {
-  fieldName: PropTypes.string.isRequired, // Уникальное имя для идентификации состояния документов
-  title: PropTypes.string.isRequired, // Заголовок для блока
-  notice: PropTypes.string, // Описание или подсказка
-  items: PropTypes.array, // Список элементов для отображения
+  userId: PropTypes.number,
+  fieldName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  notice: PropTypes.string,
+  items: PropTypes.array,
   actions: PropTypes.shape({
-    print: PropTypes.func, // Функция для печати
-    download: PropTypes.func, // Функция для скачивания PDF
-  }), // Дополнительные действия
+    print: PropTypes.func,
+    download: PropTypes.func,
+  }),
 };
-

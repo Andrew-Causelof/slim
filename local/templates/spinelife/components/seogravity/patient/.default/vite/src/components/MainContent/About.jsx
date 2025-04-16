@@ -20,8 +20,12 @@ export default function About() {
         setUserData(field, e); // Обновляем состояние поля даты
     };
 
-    const regionOptions = regions.map(item => item.name);
+    const regionOptions = regions.map(item => ({
+        id: item.id,
+        name: item.name,
+      }));
 
+      console.log(userData)
 
     return (
         <form className="main">
@@ -45,10 +49,10 @@ export default function About() {
                                     <label className="control_title">Фамилия</label>
                                     <InputField
                                         type="text"
-                                        name="lastName"
-                                        value={userData.lastName || ''}
+                                        name="lastname"
+                                        value={userData.lastname || ''}
                                         placeholder="Ваша фамилия..."
-                                        onChange={handleInputChange('lastName')}
+                                        onChange={handleInputChange('lastname')}
                                     />
                                 </div>
 

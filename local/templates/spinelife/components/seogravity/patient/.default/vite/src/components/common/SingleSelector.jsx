@@ -3,25 +3,34 @@ import PropTypes from 'prop-types';
 
 export default function SingleSelector({ options, onChange, placeholder, value }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(value || ''); // Инициализация выбранного пункта из пропсов
-  const [validationClass, setValidationClass] = useState(''); // Класс для валидации
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [validationClass, setValidationClass] = useState('');
 
-  // Обработка клика на опцию
+  // Установка выбранного значения при инициализации/обновлении
+  useEffect(() => {
+    if (typeof value === 'object' && value !== null) {
+      setSelectedItem(value);
+    } else {
+      const matched = options.find((opt) => opt.name === value || opt.id === value);
+      setSelectedItem(matched || null);
+    }
+  }, [value, options]);
+
   const handleSelect = (option) => {
     setSelectedItem(option);
     setIsDropdownOpen(false);
-    onChange(option); // Обновляем выбранный элемент через onChange
+    onChange(option); // передаём объект {id, name}
   };
 
-  // Обработчик клика по кнопке для отображения/скрытия выпадающего списка
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Проверка, выбран ли пункт, и установка класса
   useEffect(() => {
     setValidationClass(selectedItem ? 'ok' : 'err');
   }, [selectedItem]);
+
+
 
   return (
     <div className={`select ${isDropdownOpen ? 'show' : ''} ${validationClass}`}>
@@ -30,27 +39,27 @@ export default function SingleSelector({ options, onChange, placeholder, value }
         className="select_toggle"
         onClick={toggleDropdown}
       >
-        {selectedItem || placeholder}
+        {selectedItem?.name || placeholder}
       </button>
 
       {isDropdownOpen && (
         <div className="select_dropdown">
           <ul className="select_options">
-            {options.map((option, index) => (
+            {options.map((option) => (
               <li
-                key={index}
-                className={`select_option ${selectedItem === option ? 'select_option-selected' : ''}`}
+                key={option.id}
+                className={`select_option ${selectedItem?.id === option.id ? 'select_option-selected' : ''}`}
                 onClick={() => handleSelect(option)}
               >
-                <div className="radio_item" type="single">
+                <div className="radio_item">
                   <input
                     type="radio"
-                    checked={selectedItem === option}
+                    checked={selectedItem?.id === option.id}
                     readOnly
                   />
                   <span className="radio_item_visible"></span>
                 </div>
-                <span className="select_option_text">{option}</span>
+                <span className="select_option_text">{option.name}</span>
               </li>
             ))}
           </ul>
@@ -61,8 +70,11 @@ export default function SingleSelector({ options, onChange, placeholder, value }
 }
 
 SingleSelector.propTypes = {
-  options: PropTypes.array.isRequired, // Список доступных опций
-  onChange: PropTypes.func.isRequired, // Функция, которая будет вызываться при изменении выбора
-  placeholder: PropTypes.string, // Плейсхолдер для пустого состояния
-  value: PropTypes.string, // Значение выбранного пункта
+  options: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), // можно и строку, и объект
 };

@@ -29,21 +29,21 @@ export default function Docs() {
                     <DocsArticle article='Основные документы'>
                         <ErrorBoundary>
                             <DocumentUploader
-                                fieldName="passport"
+                                fieldName="passport_files"
                                 title="Копия паспорта"
-                                notice="Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты."
+                                notice="Копия паспорта сканы всех страниц"
                             />
                         </ErrorBoundary>
 
                         <DocumentUploader
                             fieldName="polis_files"
                             title="Страховой полис"
-                            notice="Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты."
+                            notice="Страховой полис сканы всех страниц"
                         />
                         <DocumentUploader
                             fieldName="snils_files"
                             title="СНИЛС"
-                            notice="Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты."
+                            notice="СНИЛС сканы всех страниц"
                         />
                     </DocsArticle>
 
@@ -62,14 +62,14 @@ export default function Docs() {
                             <DocumentUploader
                                 fieldName="general_files"
                                 title="Общий анализ крови с лейкоцитарной формулой и тромбоцитами + СОЭ"
-                                notice="Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты."
+                                notice="Общий анализ крови с лейкоцитарной формулой и тромбоцитами + СО"
                             />
 
 
                             <DocumentUploaderWithActions
                                 fieldName="coagulogram_files"
                                 title="Коагулограмма"
-                                notice="Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты."
+                                notice="Коагулограмма"
                                 items={[
                                     'МНО (международное нормализованное отношение)',
                                     'АЧТВ (активированное частичное тромбопластиновое время)',
@@ -84,7 +84,7 @@ export default function Docs() {
                             <DocumentUploaderWithActions
                                 fieldName="blood-biochemical_files"
                                 title="Биохимический анализ крови"
-                                notice="Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты."
+                                notice="Биохимический анализ крови."
                                 items={[
                                     'Глюкоза',
                                     'Общий белок',

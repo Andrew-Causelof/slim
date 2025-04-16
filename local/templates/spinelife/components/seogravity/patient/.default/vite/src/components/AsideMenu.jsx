@@ -7,6 +7,11 @@ export default function AsideMenu() {
     return (
         <aside id="menu" className="aside aside-left gradient">
             <ul className="menu">
+            <Tab
+                    text="Правила при госпитализации"
+                    active={userData.activeTab === 'rules'}
+                    onClick={() => setUserData('activeTab', 'rules')}
+                />
                 <ProgressTab
                     text="Информация о пациенте"
                     progress={userData.progress?.general || 0}
@@ -25,11 +30,6 @@ export default function AsideMenu() {
                     active={userData.activeTab === 'docs'}
                     onClick={() => setUserData('activeTab', 'docs')}
 
-                />
-                <Tab
-                    text="Правила при госпитализации"
-                    active={userData.activeTab === 'rules'}
-                    onClick={() => setUserData('activeTab', 'rules')}
                 />
                 <Tab
                     text="Рекомендации после операции"
