@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Models;
+namespace Seogravity\User;
 
 use Bitrix\Main\UserTable;
 use Bitrix\Main\Loader;
@@ -11,9 +11,11 @@ use Seogravity\DB\HLBlockTable;
 class UserData
 {
 
-    protected static $hlblockId = 7;
+    protected static $hlblockId = HLBLOCK_ID_PATIENT_DATAS;
 
-    private static $fields = [
+    // Маппинг полей из JSON в стандартные поля пользователя
+
+    private static $fieldMap  = [
         "activeTab" => null,
         "gender" => "PERSONAL_GENDER",
         "firstname" => "NAME",
@@ -128,24 +130,4 @@ class UserData
             $user->Update($userId, $fields);
         }
     }
-
-    // public static function getUserFieldName(string $dataName): ?string
-    // {
-    //     return self::$fields[$dataName] ?? null;
-    // }
-
-    // public static function getDataFieldName(string $userFieldName): ?string
-    // {
-    //     return array_search($userFieldName, self::$fields);
-    // }
-
-    // public static function getUserFileName(string $dataName): ?string
-    // {
-    //     return self::$files[$dataName] ?? null;
-    // }
-
-    // public static function getDataFileName(string $userFieldName): ?string
-    // {
-    //     return array_search($userFieldName, self::$files);
-    // }
 }

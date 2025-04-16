@@ -46,8 +46,8 @@ class PatientService
             $patients[] = [
                 'id' => (int)$user['ID'],
                 'name' => $user['NAME'],
-                'lastName' => $user['LAST_NAME'],
-                'secondName' => $user['SECOND_NAME']
+                'lastname' => $user['LAST_NAME'],
+                'secondname' => $user['SECOND_NAME']
             ];
         }
 

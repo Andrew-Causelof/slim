@@ -23,16 +23,19 @@ class Patient
         return !empty($result) ? $result[0] : null;
     }
 
-    public static function update($id, $data)
+    public static function update($id, $userData)
     {
         $hlBlockTable = new HLBlockTable(self::$patientHLBID);
 
+        $encodedData = is_array($userData) ? json_encode($userData, JSON_UNESCAPED_UNICODE) : $userData;
+
         $result = $hlBlockTable->update($id, [
-            'UF_USER_DATA' => $data
+            'UF_USER_DATA' => $encodedData
         ]);
 
         return $result;
     }
+
 
     public static function updateUserFields($userID)
     {

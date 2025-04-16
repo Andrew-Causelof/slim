@@ -3,8 +3,6 @@
 use Slim\Factory\AppFactory;
 use Api\Controllers\UserController;
 use Api\Controllers\PatientController;
-use Api\Controllers\DoctorController;
-use Api\Controllers\AppointmentController;
 use Api\Controllers\DocumentController;
 use Api\Controllers\DataController;
 use Api\Controllers\RulesController;
@@ -60,8 +58,11 @@ $app->get('/api/patient/data', [DataController::class, 'getDatas']);
 
 $app->put('/api/patient/{id:[0-9]+}', [PatientController::class, 'updateProfile']);
 
+$app->put('/api/patient/{id}/operations', [PatientController::class, 'updateOperations']);
+
 // Маршруты для пациентов (страница со списком пациентов) ?page=2&limit=5&letter=Б
 $app->get('/api/patients', [PatientsController::class, 'getPatients']);
+
 
 
 

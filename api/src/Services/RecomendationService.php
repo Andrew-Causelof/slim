@@ -4,7 +4,8 @@ namespace Api\Services;
 
 use Api\Models\Recomendation;
 use CFile;
-use Seogravity\Application\CachedContent;
+use Seogravity\Application\CachedContent;  // @TODO возвращать закэшированные данные
+
 
 class RecomendationService
 {

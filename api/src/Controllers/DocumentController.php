@@ -3,10 +3,8 @@
 namespace Api\Controllers;
 
 use Bitrix\Main\Loader;
-use Bitrix\Main\Application;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Api\Models\Document;
 use Api\Traits\ResponseTrait;
 
 class DocumentController
