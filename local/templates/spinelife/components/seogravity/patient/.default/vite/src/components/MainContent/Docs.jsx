@@ -143,8 +143,8 @@ export default function Docs() {
 
                 </div>
             </div>
-
-            <AsideInfo title='Информация' />
+            {/* @TODO - ссылка захардкодена, но выведена в админке, надо реализовать ее передачу */}
+            <AsideInfo title='Информация' pdfUrl='/upload/iblock/b9b/ptjeaxdk6s01r9srdbmnxb0v785w4znx.pdf' />
         </form>
     )
 }

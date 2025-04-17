@@ -93,7 +93,6 @@ class PatientHLService
             if ($userField === null) continue; // технические поля
 
             $value = $user[$userField] ?? null;
-
             switch ($type) {
                 case 'bool':
                     $json[$jsonKey] = $value === '1' || $value === 1 || $value === true ? 'yes' : 'no';
@@ -118,6 +117,7 @@ class PatientHLService
                     break;
                 case 'hlblock':
                     if (is_array($value)) {
+
                         $items = [];
                         foreach ($value as $hlId) {
                             $hlItem = self::getHLBlockItem($jsonKey, $hlId);
@@ -210,7 +210,7 @@ class PatientHLService
 
         // Обработка остальных полей на основании маппинга
         foreach ($map as $jsonKey => $userField) {
-            // Пропускаем "files", потому что оно уже обработано выше
+            // Пропускаем "files",  уже обработано выше
             if ($jsonKey === 'files') {
                 continue;
             }
@@ -219,7 +219,12 @@ class PatientHLService
                 continue;
             }
 
-            $json[$jsonKey] = $updates[$jsonKey];
+            if (is_array($json[$jsonKey]) && !empty(array_column($json[$jsonKey], 'showCommentInput'))) {
+                // не перезаписывает другие поля кроме id и названия инфоблока
+                $json[$jsonKey] = self::mergeById($json[$jsonKey], $updates[$jsonKey]);
+            } else {
+                $json[$jsonKey] = $updates[$jsonKey];
+            }
         }
 
         return $json;
@@ -261,7 +266,7 @@ class PatientHLService
                 'UF_USER_DATA' => json_encode($mergedUserData, JSON_UNESCAPED_UNICODE),
             ]);
         } else {
-            //@TODO - добавить технические поля, активной таблицы, процессов если необходимо
+
             $newUserData['progress'] = self::calculateProgress($newUserData);
 
             $hl->add([
@@ -453,8 +458,8 @@ class PatientHLService
             return false; // Нет данных для обновления
         }
 
-        $userObj = new \CUser;
-        $result = $userObj->Update($userId, $fieldsToUpdate);
+        // $userObj = new \CUser;
+        // $result = $userObj->Update($userId, $fieldsToUpdate);
 
         // if (!$result) {
         //     echo '<pre>';
@@ -464,5 +469,26 @@ class PatientHLService
         // }
 
         return  $result;
+    }
+
+    public static function mergeById(array $left, array $right): array
+    {
+        $leftById = [];
+        foreach ($left as $item) {
+            $leftById[$item['id']] = $item;
+        }
+
+        $result = [];
+        foreach ($right as $item) {
+            $id = $item['id'];
+            if (isset($leftById[$id])) {
+                // Объединяем: приоритет за правым, но дополняем левым
+                $result[] = array_merge($item, $leftById[$id]);
+            } else {
+                $result[] = $item;
+            }
+        }
+
+        return $result;
     }
 }

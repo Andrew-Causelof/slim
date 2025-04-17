@@ -13,7 +13,7 @@ function App() {
 
   const { userData } = useUserStore();
 
-  console.log("userData.files", userData.files);
+  console.log("userData", userData);
   return (
     <NotificationProvider>
       <div className="page page-client">

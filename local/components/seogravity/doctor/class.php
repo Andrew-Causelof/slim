@@ -22,7 +22,6 @@ class Doctor extends CBitrixComponent
             return;
         }
 
-
         $this->includeComponentTemplate('');
     }
 }
