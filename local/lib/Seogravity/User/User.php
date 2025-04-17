@@ -5,6 +5,7 @@ namespace Seogravity\User;
 use Bitrix\Main\UserTable;
 use Bitrix\Main\Application;
 use Bitrix\Main;
+use \Seogravity\DB\HLBlockTable;
 
 class User
 {
@@ -50,38 +51,6 @@ class User
         return false;
     }
 
-    /**
-     * Обновляет пользовательские поля пользователя
-     *
-     * @param array $fields Массив вида ['UF_FIELD_NAME' => 'Новое значение']
-     * @return bool|string
-     */
-    function updateUserFields(array $fields)
-    {
-        global $USER;
-
-        if (!$this->userId || empty($fields)) {
-            return "Ошибка: ID пользователя не задан или массив данных пуст.";
-        }
-
-        // Проверяем, что ключи начинаются с "UF_" (чтобы не обновлять системные поля)
-        $filteredFields = array_filter($fields, function ($key) {
-            return strpos($key, 'UF_') === 0;
-        }, ARRAY_FILTER_USE_KEY);
-
-        if (empty($filteredFields)) {
-            return "Ошибка: Нет корректных пользовательских полей для обновления.";
-        }
-
-        $user = new \CUser;
-        $result = $user->Update($this->userId, $filteredFields);
-
-        if ($result) {
-            return true; // Успешное обновление
-        } else {
-            return "Ошибка обновления: " . $user->LAST_ERROR;
-        }
-    }
 
     function isPatient()
     {
@@ -108,5 +77,18 @@ class User
             LocalRedirect('/doctor/');
             exit;
         }
+    }
+
+    public function getTableID()
+    {
+        $hlBlockTable = new HLBlockTable(HLBLOCK_ID_PATIENT_DATAS);
+
+        $result = $hlBlockTable->getList([
+            'filter' => ['UF_USER_ID' => $this->userId],
+            'select' => ['ID', 'UF_USER_ID', 'UF_USER_DATA'], // Указываем нужные поля
+            'limit' => 1
+        ]);
+
+        return !empty($result) ? $result[0]['ID'] : null;
     }
 }

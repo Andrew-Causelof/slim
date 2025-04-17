@@ -68,7 +68,7 @@ export default function Rules() {
                     ))}
                 </div>
             </div>
-            <AsideInfo title='Информация' />
+            <AsideInfo title='Информация' pdfUrl={rules.pdfUrl} />
         </main>
     )
 }

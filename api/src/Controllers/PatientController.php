@@ -92,6 +92,9 @@ class PatientController
             return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
         }
 
+        // Обновляем данных пользовтаеля из HLB
+        $updateUSerResult = (new PatientHLService())->updateUserFromHL($patientID);
+
         $response->getBody()->write(json_encode(['message' => 'Patient updated successfully']));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }

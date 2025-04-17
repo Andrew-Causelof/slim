@@ -35,6 +35,11 @@ export default function AsideMenu() {
           active={appData.activeTab === 'recomendation'}
           onClick={() => setAppData('activeTab', 'recomendation')}
         />
+        <Tab
+          text="Пациенты после консультации"
+          active={appData.activeTab === 'registration'}
+          onClick={() => setAppData('activeTab', 'registration')}
+        />
       </ul>
     </aside>
   );

@@ -75,7 +75,7 @@ export default function Recomendation() {
                     ))}
                 </div>
             </div>
-            <AsideInfo title='Информация'/>
+            <AsideInfo title='Информация' pdfUrl={recomendation.pdfUrl}/>
         </main>
     )
 }

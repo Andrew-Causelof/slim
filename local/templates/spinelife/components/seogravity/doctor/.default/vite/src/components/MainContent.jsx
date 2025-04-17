@@ -3,8 +3,10 @@ import Patients from './MainContent/Patients';
 import Chats from './MainContent/Chats';
 import Rules from './MainContent/Rules';
 import Recomendation from './MainContent/Recomendation';
+import Registration from './MainContent/Registration';
 import Breadcrumbs from './common/Breadcrumbs';
 import { useAppStore } from '../store/store';
+
 
 export default function MainContent() {
   const { appData, setAppData } = useAppStore();
@@ -16,6 +18,7 @@ export default function MainContent() {
       {appData.activeTab === 'patients' && <Patients />}
       {appData.activeTab === 'rules' && <Rules />}
       {appData.activeTab === 'recomendation' && <Recomendation />}
+      {appData.activeTab === 'registration' && <Registration />}
     </>
   );
 }

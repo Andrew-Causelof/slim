@@ -7,13 +7,12 @@ const MAX_FILE_SIZE_MB = 10; // Максимальный размер файла
 const ALLOWED_FORMATS = ['jpeg', 'jpg', 'png', 'pdf', 'doc', 'docx']; // Допустимые форматы
 
 export default function DocumentUploader({
-  userId = 3, //@TODO ID пользователя (нужно динамически определять)
   fieldName,
   title,
   notice = "",
 }) {
 
-  const { userData, uploadFile, deleteFile, saveUserData } = useUserStore();
+  const { userId, userData, uploadFile, deleteFile, saveUserData } = useUserStore();
   const [error, setError] = useState("");
 
   const notyf = useNotification();
@@ -109,7 +108,7 @@ export default function DocumentUploader({
         <div className="files">
           {userData.files && userData.files[fieldName]?.map((file) => (
             <div key={file.id} className="files_item">
-              <span className="files_item_icon"></span>
+              <a href={file.path} target="_blank" className="files_item_icon"> </a>
               <span className="files_item_title">{file.name}</span>
               <div className="files_item_actions">
                 <button

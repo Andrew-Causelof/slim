@@ -355,10 +355,20 @@ class PatientHLService
 
 
     /**
-     * Обновляем пользовательские поля из HL-блока
+     * Обновляем пользовательские поля  из HL-блока
+     * @param int $id записи в хайлоадблоке
+     * @return bool true if the user was updated, false otherwise
      */
-    public static function updateUserFromHL(array $hlRow)
+    public static function updateUserFromHL($id)
     {
+        $hl = new HLBlockTable(self::$hlblockId);
+        $existing = $hl->getList([
+            'filter' => ['ID' => $id],
+            'limit' => 1,
+        ]);
+
+        $hlRow = $existing[0];
+
         if (empty($hlRow['UF_USER_ID']) || empty($hlRow['UF_USER_DATA'])) {
             return false;
         }
@@ -389,7 +399,7 @@ class PatientHLService
             switch ($UF_TYPE) {
                 case 'hlblock':
                     if (isset($value['id'])) {
-                        $fieldsToUpdate[$UF_CODE] = [$value['id']];
+                        $fieldsToUpdate[$UF_CODE] = $value['id'];
                     } elseif (is_array($value)) {
                         $fieldsToUpdate[$UF_CODE] = array_filter(array_column($value, 'id'));
                     }
@@ -434,18 +444,14 @@ class PatientHLService
             }
         }
 
-
         //  Обработка пола
         if (!empty($jsonData['gender'])) {
             $fieldsToUpdate['PERSONAL_GENDER'] = $jsonData['gender'] === 'fem' ? 'F' : 'M';
         }
 
-
         if (empty($fieldsToUpdate)) {
             return false; // Нет данных для обновления
         }
-
-
 
         $userObj = new \CUser;
         $result = $userObj->Update($userId, $fieldsToUpdate);
@@ -458,7 +464,5 @@ class PatientHLService
         // }
 
         return  $result;
-
-        // return true;
     }
 }

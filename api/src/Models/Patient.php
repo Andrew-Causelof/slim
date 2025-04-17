@@ -3,10 +3,11 @@
 namespace Api\Models;
 
 use \Seogravity\DB\HLBlockTable;
+use \Seogravity\User\PatientHLService;
 
 class Patient
 {
-    protected static $patientHLBID = 7;
+    protected static $patientHLBID = HLBLOCK_ID_PATIENT_DATAS;
 
     public function __construct($id, $name, $age, $email) {}
 
@@ -37,25 +38,22 @@ class Patient
     }
 
 
-    public static function updateUserFields($userID)
-    {
+    // public static function updateUserFields($userID)
+    // {
 
-        $patient = self::find($userID);
+    //     $patient = self::find($userID);
 
-        if (!$patient) {
-            return false;
-        }
+    //     if (!$patient) {
+    //         return false;
+    //     }
 
-        $userData = json_decode($patient['UF_USER_DATA'], true);
+    //     $userData = json_decode($patient['UF_USER_DATA'], true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return false;
-        }
+    //     if (json_last_error() !== JSON_ERROR_NONE) {
+    //         return false;
+    //     }
 
+    //     return null;
+    // }
 
-
-
-
-        return null;
-    }
 }

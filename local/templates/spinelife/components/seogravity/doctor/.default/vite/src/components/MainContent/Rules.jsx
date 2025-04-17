@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Breadcrumbs from '../common/Breadcrumbs';
 import AsideInfo from '../common/AsideInfo';
 import { API_BASE_URL } from '../../config';
+import Loader from '../common/Loader';
 
 export default function Rules() {
   const [rules, setRules] = useState({});
@@ -28,7 +29,9 @@ export default function Rules() {
     fetchRules();
   }, []);
 
-  if (loading) return <p>Загрузка...</p>;
+  if (loading) {
+    return <Loader />;
+  }
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (

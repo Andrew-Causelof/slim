@@ -318,3 +318,6 @@
 .events_item_info a {
   cursor: pointer;
 }
+.messengers_trigger {
+  cursor: pointer;
+}

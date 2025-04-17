@@ -41,6 +41,18 @@ export default function AsideMenu() {
                     active={userData.activeTab === 'chat'}
                     onClick={() => setUserData('activeTab', 'chat')}
                 />
+
+                <Tab
+                    text="Коротко об операции"
+                    active={userData.activeTab === 'operation'}
+                    onClick={() => setUserData('activeTab', 'operation')}
+                />
+                                <Tab
+                    text="Подготовка к операции"
+                    active={userData.activeTab === 'preparing'}
+                    onClick={() => setUserData('activeTab', 'preparing')}
+                />
+
                 <Tab
                     text="Контакты"
                     active={userData.activeTab === 'contacts'}

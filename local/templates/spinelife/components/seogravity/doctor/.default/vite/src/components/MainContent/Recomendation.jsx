@@ -4,6 +4,7 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import AsideInfo from '../common/AsideInfo';
 import FileRecomendation from '../common/FileRecomendation';
 import VideoRecomendation from '../common/VideoRecomendation';
+import Loader from '../common/Loader';
 
 export default function Recomendation() {
   const [recomendation, setRecomendation] = useState({});
@@ -29,7 +30,9 @@ export default function Recomendation() {
     fetchRules();
   }, []);
 
-  if (loading) return <p>Загрузка...</p>;
+   if (loading) {
+     return <Loader />;
+   }
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
@@ -73,7 +76,7 @@ export default function Recomendation() {
           ))}
         </div>
       </div>
-      <AsideInfo title="Информация" />
+      <AsideInfo title="Информация" pdfUrl={recomendation.pdfUrl} />
     </main>
   );
 }

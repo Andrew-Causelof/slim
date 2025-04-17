@@ -15,7 +15,8 @@ $templateFolder = $this->GetFolder();
 
 <script>
     window.__USER__ = {
-        id: <?= (int)$USER->GetID(); ?>
+        tableID: <?= (int)$user->getTableID(); ?>,
+        userID: <?= (int)$USER->GetID(); ?>
     };
 </script>
 <div id="react-lk-patient"></div>

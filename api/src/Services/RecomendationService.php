@@ -40,6 +40,7 @@ class RecomendationService
 
         return [
             'title' => htmlspecialchars_decode($data['RECOMMENDATION_TITLE'] ?? ''),
+            'pdfUrl' => $data['RECOMMENDATION_FILE'],
             "sections" => array_filter([
                 [
                     "title" => htmlspecialchars_decode($data['RECOMMENDATION_VIDEO_TITLE'] ?? ''),

@@ -33,6 +33,7 @@ class Recomendation
             'RECOMMENDATION_VIDEO' => $videos,
             'RECOMMENDATION_TEXT_TITLE' => $settings['RECOMMENDATION_TEXT_TITLE']["VALUE"],
             'RECOMMENDATION_TEXT' => $settings['RECOMMENDATION_TEXT']["VALUE"],
+            'RECOMMENDATION_FILE' => \CFile::GetPath($settings['RECOMMENDATION_FILE']["VALUE"]),
 
         ];
 

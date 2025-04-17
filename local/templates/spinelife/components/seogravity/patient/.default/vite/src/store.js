@@ -3,11 +3,14 @@ import { API_BASE_URL } from "./config";
 import axios from "axios";
 
 const useUserStore = create((set) => ({
+  userId: null, // Идентификатор пользователя, передаем при инициализации компонента в битрикс
   userData: {
     files: {},
   }, // Начальное состояние
   loading: false,
   error: null,
+
+  setUserId: (id) => set({ userId: id }),
 
   setUserData: (field, value) => {
     set((state) => {

@@ -7,14 +7,13 @@ const ALLOWED_FORMATS = ['jpeg', 'png', 'pdf', 'doc', 'docx']; // Допусти
 
  //@TODO привязать к реальному ID авторизованного пациента
 export default function DocumentUploaderWithActions({
-  userId = 3, //@TODO ID пользователя (нужно динамически определять)
   fieldName,
   title,
   notice = '',
   items = [],
   actions = {}
 }) {
-  const { userData, uploadFile, deleteFile, saveUserData } = useUserStore();
+  const { userId, userData, uploadFile, deleteFile, saveUserData } = useUserStore();
   const [error, setError] = useState('');
 
   const handleFileUpload = async (e) => {
@@ -109,7 +108,7 @@ export default function DocumentUploaderWithActions({
         <div className="files">
           {userData.files[fieldName]?.map((file, index) => (
             <div key={index} className="files_item">
-              <span className="files_item_icon"></span>
+               <a href={file.path} target="_blank" className="files_item_icon"> </a>
               <span className="files_item_title">{file.name}</span>
               <div className="files_item_actions">
                 <button

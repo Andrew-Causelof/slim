@@ -3,7 +3,7 @@
 namespace Api\Services;
 
 use Api\Models\Rules;
-
+use CFile;
 use Seogravity\Application\CachedContent;
 
 class RulesService
@@ -30,6 +30,7 @@ class RulesService
 
             $rules = [
                 'title' => $data['RULES_TITLE'],
+                'pdfUrl' => $data['RULES_FILE'],
                 'sections' => array_map(
                     fn($key, $title) => [
                         'title' => htmlspecialchars_decode($data['RULES_TITLE'] ?? ''),

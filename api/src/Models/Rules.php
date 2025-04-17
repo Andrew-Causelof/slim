@@ -26,6 +26,7 @@ class Rules
             'PROCEDURE' => $settings['PROCEDURE']["VALUE"],
             'ADDITIONAL_RECOMMENDATIONS' => $settings['ADDITIONAL_RECOMMENDATIONS']["VALUE"],
             'HOSPITALIZATION' => $settings['HOSPITALIZATION']["VALUE"],
+            'RULES_FILE' => \CFile::GetPath($settings['RULES_FILE']["VALUE"])
         ];
 
         return $result;

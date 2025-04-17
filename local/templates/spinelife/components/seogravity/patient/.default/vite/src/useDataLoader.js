@@ -4,10 +4,11 @@ import { useUserStore } from "./store";
 
 function useDataLoader() {
   const fetchUserData = useUserStore((state) => state.fetchUserData);
+  const setUserId = useUserStore((state) => state.setUserId);
 
   useEffect(() => {
-    const userId =  3; //@TODO ID пользователя (нужно динамически определять)
-    
+    const userId = window.__USER__.userID;
+    setUserId(userId);  
     fetchUserData(userId);
   }, [fetchUserData]); // Запуск загрузки при монтировании
 }

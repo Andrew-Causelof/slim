@@ -26,7 +26,7 @@ export default function Chat() {
             isClinic: false,
             files: files.map(file => ({
                 name: file.name,
-                url: URL.createObjectURL(file), // В продакшене заменишь на URL с сервера
+                url: URL.createObjectURL(file), // В продакшене заменить на URL с сервера
                 type: file.type.startsWith('image') ? 'image' : 'document'
             }))
         };
