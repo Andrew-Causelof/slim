@@ -1,11 +1,17 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useUserStore } from '../../store'; // Импортируем Zustand
+import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import { useUserStore } from "../../store"; // Импортируем Zustand
 
-export default function SelectorWithComments({ options, placeholder, fieldName }) {
+export default function SelectorWithComments({
+  options,
+  placeholder,
+  fieldName,
+}) {
   const { userData, setUserData } = useUserStore(); // Получаем состояние из Zustand
   const [selectedItems, setSelectedItems] = useState(userData[fieldName] || []);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const dropdownRef = useRef(null); // ссылка на корневой элемент
 
   // Обработка клика на опцию
   const handleSelect = (option) => {
@@ -24,6 +30,20 @@ export default function SelectorWithComments({ options, placeholder, fieldName }
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Добавление комментария
   const handleCommentChange = (e, id) => {
@@ -44,7 +64,9 @@ export default function SelectorWithComments({ options, placeholder, fieldName }
   // Т toggling комментарий инпута
   const handleToggleCommentInput = (id) => {
     const updatedItems = selectedItems.map((item) =>
-      item.id === id ? { ...item, showCommentInput: !item.showCommentInput } : item
+      item.id === id
+        ? { ...item, showCommentInput: !item.showCommentInput }
+        : item
     );
     setSelectedItems(updatedItems);
     setUserData(fieldName, updatedItems);
@@ -52,13 +74,18 @@ export default function SelectorWithComments({ options, placeholder, fieldName }
 
   return (
     <>
-      <div className={`select ${isDropdownOpen ? 'show' : ''}`}>
+      <div
+        ref={dropdownRef}
+        className={`select ${isDropdownOpen ? "show" : ""}`}
+      >
         <button
           type="button"
           className="select_toggle"
           onClick={toggleDropdown}
         >
-          {selectedItems.length > 0 ? selectedItems.map((item) => item.name).join(', ') : placeholder}
+          {selectedItems.length > 0
+            ? selectedItems.map((item) => item.name).join(", ")
+            : placeholder}
         </button>
 
         {isDropdownOpen && (
@@ -67,13 +94,19 @@ export default function SelectorWithComments({ options, placeholder, fieldName }
               {options.map((option, index) => (
                 <li
                   key={index}
-                  className={`select_option ${selectedItems.some((item) => item.id === option.id) ? 'select_option-selected' : ''}`}
+                  className={`select_option ${
+                    selectedItems.some((item) => item.id === option.id)
+                      ? "select_option-selected"
+                      : ""
+                  }`}
                   onClick={() => handleSelect(option)}
                 >
                   <div className="checkbox_item">
                     <input
                       type="checkbox"
-                      checked={selectedItems.some((item) => item.id === option.id)}
+                      checked={selectedItems.some(
+                        (item) => item.id === option.id
+                      )}
                       readOnly
                     />
                     <span className="checkbox_item_visible"></span>
@@ -84,9 +117,6 @@ export default function SelectorWithComments({ options, placeholder, fieldName }
             </ul>
           </div>
         )}
-
-
-
       </div>
       {/* Блоки с комментариями для выбранных элементов */}
       <div className="selected">
@@ -118,7 +148,7 @@ export default function SelectorWithComments({ options, placeholder, fieldName }
                 <textarea
                   className="textarea textarea-sm"
                   placeholder="Добавьте комментарий"
-                  value={item.comment || ''}
+                  value={item.comment || ""}
                   onChange={(e) => handleCommentChange(e, item.id)}
                 />
               ) : null}
