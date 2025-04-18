@@ -9,6 +9,7 @@ import regions from "../../data/regions.json";
 import Description from "../common/Description";
 import AsideProgress from '../common/AsideProgress';
 import Breadcrumbs from '../common/Breadcrumbs';
+import BMIIndicator from '../common/BMIIndicator';
 
 export default function About() {
     const { userData, setUserData } = useUserStore();
@@ -108,6 +109,13 @@ export default function About() {
                                         onChange={handleInputChange('weight')}
                                         placeholder="Укажите ваш вес"
                                     />
+                                </div>
+
+                                <div className="control">
+                                    <label className="control_title">Индекс массы тела</label>
+
+
+<BMIIndicator height={userData.height} weight={userData.weight} />
                                 </div>
                             </div>
                         </div>

@@ -11,10 +11,13 @@ import infection from "../../data/infectionList.json";
 import badHabbits from "../../data/badHabbitsList.json";
 import AsideProgress from '../common/AsideProgress';
 import Breadcrumbs from '../common/Breadcrumbs';
+import PainScale from "../common/PainScale";
+import SickLeaveInfo from "../common/SickLeaveInfo";
 
 export default function Info() {
 
     const { userData, setUserData } = useUserStore();
+
 
     return (
         <form className="main">
@@ -30,6 +33,12 @@ export default function Info() {
                         <TextAreaField
                             name="comment"
                             placeholder="Опишите, пожалуйста, основное, что вас беспокоит"
+                        />
+                        <PainScale
+                        value={userData.painLevel || 0}
+                        onChange={(newValue) =>
+                            setUserData('painLevel', newValue)
+                        }
                         />
                     </InfoArticle>
 
@@ -107,10 +116,12 @@ export default function Info() {
                         <YesNoSelector labelYes="Да" labelNo="Нет" fieldName="pregnant" />
                     </InfoArticle>
 
-                    <InfoArticle article='Больничный лист' className='control-g24'>
+                    {/* <InfoArticle article='Больничный лист' className='control-g24'>
                         <Description tag="sickLeaveTag" title='Нужен ли больничный лист?' />
                         <YesNoSelector labelYes="Да" labelNo="Нет" fieldName="sickLeave" />
-                    </InfoArticle>
+                    </InfoArticle> */}
+
+                    <SickLeaveInfo />
 
                 </div>
             </div>
